@@ -6,15 +6,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.yandex.qatools.ashot.AShot;
-import ru.yandex.qatools.ashot.Screenshot;
-import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
-import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
+import java.util.logging.Logger;
 
-public class SendAppeal  {
+
+public class InitAppeal {
+    private static Logger log = Logger.getLogger(InitAppeal.class.getName());
+
     String SiteUrl = "https://гибдд.рф/request_main";
     ChromeDriver driver;
     WebDriverWait wait;
@@ -22,35 +20,38 @@ public class SendAppeal  {
     String driverUrl = "/chromedriver/chrome76driver.exe";
     WebElement AgreementCheckbox;
     WebElement AgreementSubmitBtn;
-    WebElement Captcha;
+    WebElement captcha;
 
-    public void run() throws IOException {
+    String CaptchaSavingPath;
+    public String getCaptchaSavingPath() {        return CaptchaSavingPath;    }
+    public void setCaptchaSavingPath(String captchaSavingPath) {        CaptchaSavingPath = captchaSavingPath;    }
 
-        // Настроим драйвер
+
+    public void init() {
+
+
+        log.info("Настраиваем драйвер");
         System.setProperty(driverName, driverUrl);
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("headless"); // открывает браузер в скрытом режиме
+//        log.info("Браузер будет открыт в скрытом режиме");
+//        options.addArguments("headless");
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, 10);
+        log.info("Предварителная настройка драйвера завершена");
 
-        // Откроем сайт
+        log.info("Открываем сайт");
         driver.get(SiteUrl);
         driver.manage().deleteAllCookies();
 
-        // Принимаем соглашение
+        log.info("Принимаем соглашение");
         AgreementCheckbox = driver.findElement(By.cssSelector("[class=\"f-left checkError\"]"));
         AgreementSubmitBtn = driver.findElement(By.cssSelector("[class=\"u-form__sbt\"]"));
         AgreementCheckbox.click();
         AgreementSubmitBtn.click();
 
-        // Ищем и фотаем капчу, сохраняем
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[class=\"captcha-img\"]")));
-        Captcha = driver.findElement(By.cssSelector("[class=\"captcha-img\"]"));
-
-        Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(200)).takeScreenshot(driver, Captcha);
-
-        ImageIO.write(screenshot.getImage(), "PNG", new File("c:\\tmp\\div_element.png"));
+        captcha = driver.findElement(By.cssSelector("[class=\"captcha-img\"]"));
 
     }
 
