@@ -2,15 +2,19 @@ package gibdd;
 
 public class main {
     public static void main(String[] args) {
-        InitAppeal sender = new InitAppeal();
+        InitAppeal initiator = new InitAppeal();
         Screenshoter screenshoter = new Screenshoter();
-
-        sender.init();
-        sender.setCaptchaSavingPath("c:/tmp/captchaScreenshot.png");
+        initiator.setDriverName("webdriver.chrome.driver");
+        initiator.setDriverUrl("/chromedriver/chrome76driver.exe");
+        initiator.setSiteUrl("https://гибдд.рф/request_main");
+        initiator.setCaptchaSavingPath("c:/tmp/captchaScreenshot.png");
+        initiator.setHeadlessBrowserOption(true);
+        initiator.init();
         screenshoter.doCaptchaScreenshot(
-                sender.getCaptchaSavingPath(),
-                sender.driver,
-                sender.captcha);
+                initiator.getCaptchaSavingPath(),
+                initiator.driver,
+                initiator.captcha);
 
+        // TODO
     }
 }
