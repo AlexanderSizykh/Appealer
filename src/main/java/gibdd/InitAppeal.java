@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class InitAppeal {
     private static Logger log = Logger.getLogger(InitAppeal.class.getName());
-    ChromeDriver driver;
+    public ChromeDriver driver;
     WebDriverWait wait;
 
     String siteUrl;
@@ -37,7 +37,7 @@ public class InitAppeal {
 
     WebElement agreementCheckbox;
     WebElement agreementSubmitBtn;
-    WebElement captcha;
+    public WebElement captcha;
 
     public void init() {
 

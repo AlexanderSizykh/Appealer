@@ -22,7 +22,7 @@ public class Screenshoter {
 
         try {
             ImageIO.write(screenshot.getImage(), "PNG", new File(CaptchaSavingPath));
-            log.info("Записываем капчу в файл " + CaptchaSavingPath);
+            log.info("Записали капчу в файл " + CaptchaSavingPath);
         } catch (IOException e) {
             e.printStackTrace();
             log.info("Не удалось записать файл");
